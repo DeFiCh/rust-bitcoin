@@ -28,7 +28,7 @@ fn main() {
     println!("Seed: {}", seed_hex);
 
     // default network as mainnet
-    let network = bitcoin::Network::Bitcoin;
+    let network = bitcoin::Network::Mainnet;
     println!("Network: {:?}", network);
 
     let seed = Vec::from_hex(seed_hex).unwrap();

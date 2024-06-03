@@ -1014,7 +1014,7 @@ mod tests {
     use crate::blockdata::script::ScriptBuf;
     use crate::blockdata::transaction::{self, OutPoint, Sequence, Transaction, TxIn, TxOut};
     use crate::blockdata::witness::Witness;
-    use crate::network::Network::Bitcoin;
+    use crate::network::Network::Mainnet;
     use crate::psbt::map::{Input, Output};
     use crate::psbt::raw;
     use crate::psbt::serialize::{Deserialize, Serialize};
