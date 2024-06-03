@@ -749,8 +749,8 @@ impl FromStr for Address<NetworkUnchecked> {
         // try bech32
         let bech32_network = match find_bech32_prefix(s) {
             // note that upper or lowercase is allowed but NOT mixed case
-            "bc" | "BC" => Some(Network::Mainnet),
-            "tb" | "TB" => Some(Network::Testnet), // this may also be devnet
+            "df" | "DF" => Some(Network::Mainnet),
+            "tf" | "TF" => Some(Network::Testnet), // this may also be devnet
             "bcrt" | "BCRT" => Some(Network::Regtest),
             _ => None,
         };
