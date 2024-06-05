@@ -637,7 +637,7 @@ impl Xpriv {
         }
 
         let network = if data.starts_with(&VERSION_BYTES_MAINNET_PRIVATE) {
-            Network::Bitcoin
+            Network::Mainnet
         } else if data.starts_with(&VERSION_BYTES_TESTNETS_PRIVATE) {
             Network::Testnet
         } else {
@@ -663,8 +663,8 @@ impl Xpriv {
     pub fn encode(&self) -> [u8; 78] {
         let mut ret = [0; 78];
         ret[0..4].copy_from_slice(&match self.network {
-            Network::Bitcoin => VERSION_BYTES_MAINNET_PRIVATE,
-            Network::Testnet | Network::Signet | Network::Regtest => VERSION_BYTES_TESTNETS_PRIVATE,
+            Network::Mainnet => VERSION_BYTES_MAINNET_PRIVATE,
+            Network::Testnet | Network::Devnet | Network::Regtest => VERSION_BYTES_TESTNETS_PRIVATE,
         });
         ret[4] = self.depth;
         ret[5..9].copy_from_slice(&self.parent_fingerprint[..]);
@@ -769,7 +769,7 @@ impl Xpub {
         }
 
         let network = if data.starts_with(&VERSION_BYTES_MAINNET_PUBLIC) {
-            Network::Bitcoin
+            Network::Mainnet
         } else if data.starts_with(&VERSION_BYTES_TESTNETS_PUBLIC) {
             Network::Testnet
         } else {
@@ -795,8 +795,8 @@ impl Xpub {
     pub fn encode(&self) -> [u8; 78] {
         let mut ret = [0; 78];
         ret[0..4].copy_from_slice(&match self.network {
-            Network::Bitcoin => VERSION_BYTES_MAINNET_PUBLIC,
-            Network::Testnet | Network::Signet | Network::Regtest => VERSION_BYTES_TESTNETS_PUBLIC,
+            Network::Mainnet => VERSION_BYTES_MAINNET_PUBLIC,
+            Network::Testnet | Network::Devnet | Network::Regtest => VERSION_BYTES_TESTNETS_PUBLIC,
         });
         ret[4] = self.depth;
         ret[5..9].copy_from_slice(&self.parent_fingerprint[..]);
@@ -1192,7 +1192,7 @@ mod tests {
         }
 
         let xpriv = Xpriv {
-            network: Network::Bitcoin,
+            network: Network::Mainnet,
             depth: 0,
             parent_fingerprint: Default::default(),
             child_number: ChildNumber::Normal { index: 0 },

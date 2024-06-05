@@ -96,7 +96,7 @@ pub fn genesis_block(network: Network) -> Block {
     let hash: sha256d::Hash = txdata[0].txid().into();
     let merkle_root = hash.into();
     match network {
-        Network::Bitcoin => Block {
+        Network::Mainnet => Block {
             header: block::Header {
                 version: block::Version::ONE,
                 prev_blockhash: Hash::all_zeros(),
@@ -124,7 +124,7 @@ pub fn genesis_block(network: Network) -> Block {
             },
             txdata,
         },
-        Network::Signet => Block {
+        Network::Devnet => Block {
             header: block::Header {
                 version: block::Version::ONE,
                 prev_blockhash: Hash::all_zeros(),
@@ -164,7 +164,7 @@ impl_bytes_newtype!(ChainHash, 32);
 impl ChainHash {
     // Mainnet value can be verified at https://github.com/lightning/bolts/blob/master/00-introduction.md
     /// `ChainHash` for mainnet bitcoin.
-    pub const BITCOIN: Self = Self([
+    pub const MAINNET: Self = Self([
         111, 226, 140, 10, 182, 241, 179, 114, 193, 166, 162, 70, 174, 99, 247, 79, 147, 30, 131,
         101, 225, 90, 8, 156, 104, 214, 25, 0, 0, 0, 0, 0,
     ]);
@@ -174,7 +174,7 @@ impl ChainHash {
         32, 132, 233, 14, 173, 1, 234, 51, 9, 0, 0, 0, 0,
     ]);
     /// `ChainHash` for signet bitcoin.
-    pub const SIGNET: Self = Self([
+    pub const DEVNET: Self = Self([
         246, 30, 238, 59, 99, 163, 128, 164, 119, 160, 99, 175, 50, 178, 187, 201, 124, 159, 249,
         240, 31, 44, 66, 37, 233, 115, 152, 129, 8, 0, 0, 0,
     ]);
@@ -189,7 +189,7 @@ impl ChainHash {
     /// See [BOLT 0](https://github.com/lightning/bolts/blob/ffeece3dab1c52efdb9b53ae476539320fa44938/00-introduction.md#chain_hash)
     /// for specification.
     pub const fn using_genesis_block(network: Network) -> Self {
-        let hashes = [Self::BITCOIN, Self::TESTNET, Self::SIGNET, Self::REGTEST];
+        let hashes = [Self::MAINNET, Self::TESTNET, Self::DEVNET, Self::REGTEST];
         hashes[network as usize]
     }
 
@@ -237,7 +237,7 @@ mod test {
 
     #[test]
     fn bitcoin_genesis_full_block() {
-        let gen = genesis_block(Network::Bitcoin);
+        let gen = genesis_block(Network::Mainnet);
 
         assert_eq!(gen.header.version, block::Version::ONE);
         assert_eq!(gen.header.prev_blockhash, Hash::all_zeros());
@@ -273,7 +273,7 @@ mod test {
 
     #[test]
     fn signet_genesis_full_block() {
-        let gen = genesis_block(Network::Signet);
+        let gen = genesis_block(Network::Devnet);
         assert_eq!(gen.header.version, block::Version::ONE);
         assert_eq!(gen.header.prev_blockhash, Hash::all_zeros());
         assert_eq!(
@@ -307,9 +307,9 @@ mod test {
 
         #[allow(unreachable_patterns)] // This is specifically trying to catch later added variants.
         match network {
-            Network::Bitcoin => {},
+            Network::Mainnet => {},
             Network::Testnet => {},
-            Network::Signet => {},
+            Network::Devnet => {},
             Network::Regtest => {},
             _ => panic!("Update ChainHash::using_genesis_block and chain_hash_genesis_block with new variants"),
         }
@@ -327,16 +327,16 @@ mod test {
     }
 
     chain_hash_genesis_block! {
-        mainnet_chain_hash_genesis_block, Network::Bitcoin;
+        mainnet_chain_hash_genesis_block, Network::Mainnet;
         testnet_chain_hash_genesis_block, Network::Testnet;
-        signet_chain_hash_genesis_block, Network::Signet;
+        signet_chain_hash_genesis_block, Network::Devnet;
         regtest_chain_hash_genesis_block, Network::Regtest;
     }
 
     // Test vector taken from: https://github.com/lightning/bolts/blob/master/00-introduction.md
     #[test]
     fn mainnet_chain_hash_test_vector() {
-        let got = ChainHash::using_genesis_block(Network::Bitcoin).to_string();
+        let got = ChainHash::using_genesis_block(Network::Mainnet).to_string();
         let want = "6fe28c0ab6f1b372c1a6a246ae63f74f931e8365e15a089c68d6190000000000";
         assert_eq!(got, want);
     }

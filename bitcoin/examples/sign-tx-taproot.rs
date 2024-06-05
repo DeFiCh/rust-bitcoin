@@ -101,7 +101,7 @@ fn senders_keys<C: Signing>(secp: &Secp256k1<C>) -> Keypair {
 fn receivers_address() -> Address {
     Address::from_str("bc1p0dq0tzg2r780hldthn5mrznmpxsxc0jux5f20fwj0z3wqxxk6fpqm7q0va")
         .expect("a valid address")
-        .require_network(Network::Bitcoin)
+        .require_network(Network::Mainnet)
         .expect("valid address for mainnet")
 }
 

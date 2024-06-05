@@ -207,11 +207,11 @@ pub struct Magic([u8; 4]);
 
 impl Magic {
     /// Bitcoin mainnet network magic bytes.
-    pub const BITCOIN: Self = Self([0xF9, 0xBE, 0xB4, 0xD9]);
+    pub const MAINNET: Self = Self([0xF9, 0xBE, 0xB4, 0xD9]);
     /// Bitcoin testnet network magic bytes.
     pub const TESTNET: Self = Self([0x0B, 0x11, 0x09, 0x07]);
     /// Bitcoin signet network magic bytes.
-    pub const SIGNET: Self = Self([0x0A, 0x03, 0xCF, 0x40]);
+    pub const DEVNET: Self = Self([0x0A, 0x03, 0xCF, 0x40]);
     /// Bitcoin regtest network magic bytes.
     pub const REGTEST: Self = Self([0xFA, 0xBF, 0xB5, 0xDA]);
 
@@ -237,9 +237,9 @@ impl From<Network> for Magic {
     fn from(network: Network) -> Magic {
         match network {
             // Note: new network entries must explicitly be matched in `try_from` below.
-            Network::Bitcoin => Magic::BITCOIN,
+            Network::Mainnet => Magic::MAINNET,
             Network::Testnet => Magic::TESTNET,
-            Network::Signet => Magic::SIGNET,
+            Network::Devnet => Magic::DEVNET,
             Network::Regtest => Magic::REGTEST,
         }
     }
@@ -251,9 +251,9 @@ impl TryFrom<Magic> for Network {
     fn try_from(magic: Magic) -> Result<Self, Self::Error> {
         match magic {
             // Note: any new network entries must be matched against here.
-            Magic::BITCOIN => Ok(Network::Bitcoin),
+            Magic::MAINNET => Ok(Network::Mainnet),
             Magic::TESTNET => Ok(Network::Testnet),
-            Magic::SIGNET => Ok(Network::Signet),
+            Magic::DEVNET => Ok(Network::Devnet),
             Magic::REGTEST => Ok(Network::Regtest),
             _ => Err(UnknownMagicError(magic)),
         }
@@ -410,10 +410,10 @@ mod tests {
     #[test]
     fn magic_from_str() {
         let known_network_magic_strs = [
-            ("f9beb4d9", Network::Bitcoin),
+            ("f9beb4d9", Network::Mainnet),
             ("0b110907", Network::Testnet),
             ("fabfb5da", Network::Regtest),
-            ("0a03cf40", Network::Signet),
+            ("0a03cf40", Network::Devnet),
         ];
 
         for (magic_str, network) in &known_network_magic_strs {
