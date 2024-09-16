@@ -807,7 +807,7 @@ mod tests {
 
     use super::*;
     use crate::crypto::key::PublicKey;
-    use crate::network::Network::{Bitcoin, Testnet};
+    use crate::network::Network::{Mainnet, Testnet};
 
     fn roundtrips(addr: &Address) {
         assert_eq!(
@@ -835,7 +835,7 @@ mod tests {
     #[test]
     fn test_p2pkh_address_58() {
         let addr = Address::new(
-            Bitcoin,
+            Mainnet,
             Payload::PubkeyHash("162c5ea71c0b23f5b9022ef047c4a86470a5b070".parse().unwrap()),
         );
 
@@ -851,7 +851,7 @@ mod tests {
     #[test]
     fn test_p2pkh_from_key() {
         let key = "048d5141948c1702e8c95f438815794b87f706a8d4cd2bffad1dc1570971032c9b6042a0431ded2478b5c9cf2d81c124a5e57347a3c63ef0e7716cf54d613ba183".parse::<PublicKey>().unwrap();
-        let addr = Address::p2pkh(&key, Bitcoin);
+        let addr = Address::p2pkh(&key, Mainnet);
         assert_eq!(&addr.to_string(), "1QJVDzdqb1VpbDK7uDeyVXy9mR27CJiyhY");
 
         let key = "03df154ebfcf29d29cc10d5c2565018bce2d9edbab267c31d2caf44a63056cf99f"
@@ -866,7 +866,7 @@ mod tests {
     #[test]
     fn test_p2sh_address_58() {
         let addr = Address::new(
-            Bitcoin,
+            Mainnet,
             Payload::ScriptHash("162c5ea71c0b23f5b9022ef047c4a86470a5b070".parse().unwrap()),
         );
 
@@ -900,21 +900,21 @@ mod tests {
         let mut key = "033bc8c83c52df5712229a2f72206d90192366c36428cb0c12b6af98324d97bfbc"
             .parse::<PublicKey>()
             .unwrap();
-        let addr = Address::p2wpkh(&key, Bitcoin).unwrap();
+        let addr = Address::p2wpkh(&key, Mainnet).unwrap();
         assert_eq!(&addr.to_string(), "bc1qvzvkjn4q3nszqxrv3nraga2r822xjty3ykvkuw");
         assert_eq!(addr.address_type(), Some(AddressType::P2wpkh));
         roundtrips(&addr);
 
         // Test uncompressed pubkey
         key.compressed = false;
-        assert_eq!(Address::p2wpkh(&key, Bitcoin), Err(Error::UncompressedPubkey));
+        assert_eq!(Address::p2wpkh(&key, Mainnet), Err(Error::UncompressedPubkey));
     }
 
     #[test]
     fn test_p2wsh() {
         // stolen from Bitcoin transaction 5df912fda4becb1c29e928bec8d64d93e9ba8efa9b5b405bd683c86fd2c65667
         let script = ScriptBuf::from_hex("52210375e00eb72e29da82b89367947f29ef34afb75e8654f6ea368e0acdfd92976b7c2103a1b26313f430c4b15bb1fdce663207659d8cac749a0e53d70eff01874496feff2103c96d495bfdd5ba4145e3e046fee45e84a8a48ad05bd8dbb395c011a32cf9f88053ae").unwrap();
-        let addr = Address::p2wsh(&script, Bitcoin);
+        let addr = Address::p2wsh(&script, Mainnet);
         assert_eq!(
             &addr.to_string(),
             "bc1qwqdg6squsna38e46795at95yu9atm8azzmyvckulcc7kytlcckxswvvzej"
@@ -929,21 +929,21 @@ mod tests {
         let mut key = "026c468be64d22761c30cd2f12cbc7de255d592d7904b1bab07236897cc4c2e766"
             .parse::<PublicKey>()
             .unwrap();
-        let addr = Address::p2shwpkh(&key, Bitcoin).unwrap();
+        let addr = Address::p2shwpkh(&key, Mainnet).unwrap();
         assert_eq!(&addr.to_string(), "3QBRmWNqqBGme9er7fMkGqtZtp4gjMFxhE");
         assert_eq!(addr.address_type(), Some(AddressType::P2sh));
         roundtrips(&addr);
 
         // Test uncompressed pubkey
         key.compressed = false;
-        assert_eq!(Address::p2wpkh(&key, Bitcoin), Err(Error::UncompressedPubkey));
+        assert_eq!(Address::p2wpkh(&key, Mainnet), Err(Error::UncompressedPubkey));
     }
 
     #[test]
     fn test_p2shwsh() {
         // stolen from Bitcoin transaction f9ee2be4df05041d0e0a35d7caa3157495ca4f93b233234c9967b6901dacf7a9
         let script = ScriptBuf::from_hex("522103e5529d8eaa3d559903adb2e881eb06c86ac2574ffa503c45f4e942e2a693b33e2102e5f10fcdcdbab211e0af6a481f5532536ec61a5fdbf7183770cf8680fe729d8152ae").unwrap();
-        let addr = Address::p2shwsh(&script, Bitcoin);
+        let addr = Address::p2shwsh(&script, Mainnet);
         assert_eq!(&addr.to_string(), "36EqgNnsWW94SreZgBWc1ANC6wpFZwirHr");
         assert_eq!(addr.address_type(), Some(AddressType::P2sh));
         roundtrips(&addr);
@@ -956,7 +956,7 @@ mod tests {
             "654f6ea368e0acdfd92976b7c2103a1b26313f430654f6ea368e0acdfd92976b7c2103a1b26313f4"
         );
         let witness_prog = WitnessProgram::new(WitnessVersion::V13, program.to_vec()).unwrap();
-        let addr = Address::new(Bitcoin, Payload::WitnessProgram(witness_prog));
+        let addr = Address::new(Mainnet, Payload::WitnessProgram(witness_prog));
         roundtrips(&addr);
     }
 

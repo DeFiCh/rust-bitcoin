@@ -1153,7 +1153,7 @@ mod tests {
 
         let mut hd_keypaths: BTreeMap<secp256k1::PublicKey, KeySource> = Default::default();
 
-        let mut sk: Xpriv = Xpriv::new_master(Bitcoin, &seed).unwrap();
+        let mut sk: Xpriv = Xpriv::new_master(Mainnet, &seed).unwrap();
 
         let fprint = sk.fingerprint(secp);
 
