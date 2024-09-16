@@ -773,7 +773,7 @@ mod tests {
 
     use super::*;
     use crate::address::Address;
-    use crate::network::Network::{Bitcoin, Testnet};
+    use crate::network::Network::{Mainnet, Testnet};
 
     #[test]
     fn test_key_derivation() {
@@ -797,7 +797,7 @@ mod tests {
         // mainnet uncompressed
         let sk =
             PrivateKey::from_wif("5JYkZjmN7PVMjJUfJWfRFwtuXTGB439XV6faajeHPAM9Z2PT2R3").unwrap();
-        assert_eq!(sk.network, Bitcoin);
+        assert_eq!(sk.network, Mainnet);
         assert!(!sk.compressed);
         assert_eq!(&sk.to_wif(), "5JYkZjmN7PVMjJUfJWfRFwtuXTGB439XV6faajeHPAM9Z2PT2R3");
 

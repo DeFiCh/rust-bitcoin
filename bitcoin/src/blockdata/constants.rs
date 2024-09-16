@@ -36,18 +36,28 @@ pub const DIFFCHANGE_TIMESPAN: u32 = 14 * 24 * 3600;
 pub const WITNESS_SCALE_FACTOR: usize = 4;
 /// The maximum allowed number of signature check operations in a block.
 pub const MAX_BLOCK_SIGOPS_COST: i64 = 80_000;
+
 /// Mainnet (bitcoin) pubkey address prefix.
 // pub const PUBKEY_ADDRESS_PREFIX_MAIN: u8 = 0; // 0x00
-pub const PUBKEY_ADDRESS_PREFIX_MAIN: u8 = 18; // 0x12 (defichain)
+pub const PUBKEY_ADDRESS_PREFIX_MAIN: u8 = 18; // 0x12 (defichain mainnet)
+
 /// Mainnet (bitcoin) script address prefix.
 // pub const SCRIPT_ADDRESS_PREFIX_MAIN: u8 = 5; // 0x05
-pub const SCRIPT_ADDRESS_PREFIX_MAIN: u8 = 90; // 0x5a (defichain)
+pub const SCRIPT_ADDRESS_PREFIX_MAIN: u8 = 90; // 0x5a (defichain mainnet)
+
 /// Test (tesnet, signet, regtest) pubkey address prefix.
 // pub const PUBKEY_ADDRESS_PREFIX_TEST: u8 = 111; // 0x6f
-pub const PUBKEY_ADDRESS_PREFIX_TEST: u8 = 15; // 0xf (defichain)
+pub const PUBKEY_ADDRESS_PREFIX_TEST: u8 = 15; // 0xf (defichain testnet, devnet, changi)
+
 /// Test (tesnet, signet, regtest) script address prefix.
 // pub const SCRIPT_ADDRESS_PREFIX_TEST: u8 = 196; // 0xc4
-pub const SCRIPT_ADDRESS_PREFIX_TEST: u8 = 128; // 0x80 (defichain)
+pub const SCRIPT_ADDRESS_PREFIX_TEST: u8 = 128; // 0x80 (defichain testnet, devnet changi)
+
+/// Regtest pubkey address prefix.
+pub const PUBKEY_ADDRESS_PREFIX_REGTEST: u8 = 111; // 0x6f (defichain regtest)
+/// Regtest script address prefix.
+pub const SCRIPT_ADDRESS_PREFIX_REGTEST: u8 = 196; // 0xc4 (defichain regtest)
+
 /// The maximum allowed script size.
 pub const MAX_SCRIPT_ELEMENT_SIZE: usize = 520;
 /// How may blocks between halvings.
