@@ -798,6 +798,58 @@ fn segwit_redeem_hash(pubkey_hash: &PubkeyHash) -> crate::hashes::hash160::Hash 
     crate::hashes::hash160::Hash::from_engine(sha_engine)
 }
 
+#[test]
+fn test_defi_addr() {
+    // mainnet
+    println!("mainnet");
+    {
+        let legacy = "8PTeJhFbLR6NFdbXbxMyPVbSHnADbvvBFR";
+        let legacy = Address::from_str(legacy);
+        println!("legacy: {:?}", legacy);
+
+        let p2sh = "dQgtBZ3rUe89p5xB37BY52ouchoq9eKeSU";
+        let p2sh = Address::from_str(p2sh);
+        println!("p2sh: {:?}", p2sh);
+
+        let bech32 = "df1q6qvx8rvw4lw6t7dhhvh25s7dm32yh75ufvzdxt";
+        let bech32 = Address::from_str(bech32);
+        println!("bech32: {:?}", bech32);
+    }
+
+    // testnet
+    println!("testnet");
+    {
+        let legacy = "73QYLGdMQp7dtsXEfDV5y1APSGDH5AaNpA";
+        let legacy = Address::from_str(legacy);
+        println!("legacy: {:?}", legacy);
+
+        let p2sh = "ttA5usesnEsseDa2UfRz3HqeDtwEmvMEhr";
+        let p2sh = Address::from_str(p2sh);
+        println!("p2sh: {:?}", p2sh);
+
+        let bech32 = "tf1qv73jmh3x9ydnzvwuhk739dq7fpquyun7msuppu";
+        let bech32 = Address::from_str(bech32);
+        println!("bech32: {:?}", bech32);
+    }
+
+    // regtest
+    println!("regtest");
+    {
+        let legacy = "mwjqFtKDbf8w8bRCLBxxjfyBfBNJcaBAdm";
+        let legacy = Address::from_str(legacy);
+        println!("legacy: {:?}", legacy);
+
+        let p2sh = "2NFb7jCNEJPz1CyBA6b97mENJPhm6qpfnKc";
+        let p2sh = Address::from_str(p2sh);
+        println!("p2sh: {:?}", p2sh);
+
+        let bech32 = "bcrt1qeq2g82kj99mqfvnwc2g5w0azzd298q0t84tc6s";
+        let bech32 = Address::from_str(bech32);
+        println!("bech32: {:?}", bech32);
+    }
+}
+
+
 #[cfg(test)]
 mod tests {
     use core::str::FromStr;
