@@ -377,10 +377,8 @@ impl<V: NetworkValidation> Address<V> {
             Network::Regtest => SCRIPT_ADDRESS_PREFIX_REGTEST,
         };
         let hrp = match self.network() {
-            Network::Mainnet => hrp::BC,
-            Network::Testnet | Network::Devnet => hrp::TB,
-            // Network::Mainnet => hrp::DF,
-            // Network::Testnet | Network::Devnet => hrp::TF,
+            Network::Mainnet => Hrp::parse("df").unwrap(),
+            Network::Testnet | Network::Devnet => Hrp::parse("tf").unwrap(),
             Network::Regtest => hrp::BCRT,
         };
         let encoding = AddressEncoding { payload: self.payload(), p2pkh_prefix, p2sh_prefix, hrp };
