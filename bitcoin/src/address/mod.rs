@@ -783,6 +783,10 @@ impl FromStr for Address<NetworkUnchecked> {
                 (Network::Testnet, Payload::PubkeyHash(PubkeyHash::from_slice(&data[1..]).unwrap())),
             SCRIPT_ADDRESS_PREFIX_TEST =>
                 (Network::Testnet, Payload::ScriptHash(ScriptHash::from_slice(&data[1..]).unwrap())),
+            PUBKEY_ADDRESS_PREFIX_REGTEST =>
+                (Network::Testnet, Payload::PubkeyHash(PubkeyHash::from_slice(&data[1..]).unwrap())),
+            SCRIPT_ADDRESS_PREFIX_REGTEST =>
+                (Network::Testnet, Payload::ScriptHash(ScriptHash::from_slice(&data[1..]).unwrap())),
             x => return Err(ParseError::Base58(base58::Error::InvalidAddressVersion(x))),
         };
 
