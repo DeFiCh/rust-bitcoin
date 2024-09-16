@@ -39,8 +39,8 @@ use secp256k1::{Secp256k1, Verification, XOnlyPublicKey};
 
 use crate::base58;
 use crate::blockdata::constants::{
-    MAX_SCRIPT_ELEMENT_SIZE, PUBKEY_ADDRESS_PREFIX_MAIN, PUBKEY_ADDRESS_PREFIX_TEST,
-    SCRIPT_ADDRESS_PREFIX_MAIN, SCRIPT_ADDRESS_PREFIX_TEST,
+    MAX_SCRIPT_ELEMENT_SIZE, PUBKEY_ADDRESS_PREFIX_MAIN, PUBKEY_ADDRESS_PREFIX_REGTEST, PUBKEY_ADDRESS_PREFIX_TEST,
+    SCRIPT_ADDRESS_PREFIX_MAIN, SCRIPT_ADDRESS_PREFIX_REGTEST, SCRIPT_ADDRESS_PREFIX_TEST,
 };
 use crate::blockdata::script::witness_program::WitnessProgram;
 use crate::blockdata::script::witness_version::WitnessVersion;
@@ -368,15 +368,19 @@ impl<V: NetworkValidation> Address<V> {
     fn fmt_internal(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
         let p2pkh_prefix = match self.network() {
             Network::Mainnet => PUBKEY_ADDRESS_PREFIX_MAIN,
-            Network::Testnet | Network::Devnet | Network::Regtest => PUBKEY_ADDRESS_PREFIX_TEST,
+            Network::Testnet | Network::Devnet | Network::Devnet => PUBKEY_ADDRESS_PREFIX_TEST,
+            Network::Regtest => PUBKEY_ADDRESS_PREFIX_REGTEST,
         };
         let p2sh_prefix = match self.network() {
             Network::Mainnet => SCRIPT_ADDRESS_PREFIX_MAIN,
-            Network::Testnet | Network::Devnet | Network::Regtest => SCRIPT_ADDRESS_PREFIX_TEST,
+            Network::Testnet | Network::Devnet | Network::Devnet => SCRIPT_ADDRESS_PREFIX_TEST,
+            Network::Regtest => SCRIPT_ADDRESS_PREFIX_REGTEST,
         };
         let hrp = match self.network() {
             Network::Mainnet => hrp::BC,
             Network::Testnet | Network::Devnet => hrp::TB,
+            // Network::Mainnet => hrp::DF,
+            // Network::Testnet | Network::Devnet => hrp::TF,
             Network::Regtest => hrp::BCRT,
         };
         let encoding = AddressEncoding { payload: self.payload(), p2pkh_prefix, p2sh_prefix, hrp };
