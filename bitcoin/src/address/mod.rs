@@ -45,6 +45,7 @@ use crate::blockdata::constants::{
 use crate::blockdata::script::witness_program::WitnessProgram;
 use crate::blockdata::script::witness_version::WitnessVersion;
 use crate::blockdata::script::{self, Script, ScriptBuf, ScriptHash};
+use crate::constants::{PUBKEY_ADDRESS_PREFIX_BITCOIN_MAIN, PUBKEY_ADDRESS_PREFIX_BITCOIN_TEST, SCRIPT_ADDRESS_PREFIX_BITCOIN_MAIN, SCRIPT_ADDRESS_PREFIX_BITCOIN_TEST};
 use crate::crypto::key::{PubkeyHash, PublicKey, TapTweak, TweakedPublicKey, UntweakedPublicKey};
 use crate::network::Network;
 use crate::prelude::*;
@@ -370,16 +371,22 @@ impl<V: NetworkValidation> Address<V> {
             Network::Mainnet => PUBKEY_ADDRESS_PREFIX_MAIN,
             Network::Testnet | Network::Devnet | Network::Devnet => PUBKEY_ADDRESS_PREFIX_TEST,
             Network::Regtest => PUBKEY_ADDRESS_PREFIX_REGTEST,
+            Network::BitcoinMainnet => PUBKEY_ADDRESS_PREFIX_BITCOIN_MAIN,
+            Network::BitcoinTestnet => PUBKEY_ADDRESS_PREFIX_BITCOIN_TEST,
         };
         let p2sh_prefix = match self.network() {
             Network::Mainnet => SCRIPT_ADDRESS_PREFIX_MAIN,
             Network::Testnet | Network::Devnet | Network::Devnet => SCRIPT_ADDRESS_PREFIX_TEST,
             Network::Regtest => SCRIPT_ADDRESS_PREFIX_REGTEST,
+            Network::BitcoinMainnet => SCRIPT_ADDRESS_PREFIX_BITCOIN_MAIN,
+            Network::BitcoinTestnet => SCRIPT_ADDRESS_PREFIX_BITCOIN_TEST,
         };
         let hrp = match self.network() {
             Network::Mainnet => Hrp::parse("df").unwrap(),
             Network::Testnet | Network::Devnet => Hrp::parse("tf").unwrap(),
             Network::Regtest => hrp::BCRT,
+            Network::BitcoinMainnet => Hrp::parse("bc").unwrap(),
+            Network::BitcoinTestnet => Hrp::parse("tb").unwrap(),
         };
         let encoding = AddressEncoding { payload: self.payload(), p2pkh_prefix, p2sh_prefix, hrp };
 
@@ -669,6 +676,7 @@ impl Address<NetworkUnchecked> {
             (Network::Mainnet, _) | (_, Network::Mainnet) => false,
             (Network::Regtest, _) | (_, Network::Regtest) if !is_legacy => false,
             (Network::Testnet, _) | (Network::Regtest, _) | (Network::Devnet, _) => true,
+            (Network::BitcoinMainnet, _) | (Network::BitcoinTestnet, _) => false,
         }
     }
 
@@ -754,6 +762,8 @@ impl FromStr for Address<NetworkUnchecked> {
             "df" | "DF" => Some(Network::Mainnet),
             "tf" | "TF" => Some(Network::Testnet), // this may also be devnet
             "bcrt" | "BCRT" => Some(Network::Regtest),
+            "bc" | "BC" => Some(Network::BitcoinMainnet),
+            "tb" | "TB" => Some(Network::BitcoinTestnet),
             _ => None,
         };
         if let Some(network) = bech32_network {
@@ -850,6 +860,18 @@ fn test_defi_addr() {
         let bech32 = "bcrt1qeq2g82kj99mqfvnwc2g5w0azzd298q0t84tc6s";
         let bech32 = Address::from_str(bech32);
         println!("bech32: {:?}", bech32);
+    }
+
+    // bitcoin bech32
+    println!("bitcoin bech32");
+    {
+        let bech32 = "bc1qq4mg7tgh7qqkk4eqhdyct89mqegyzut06ksf0h";
+        let bech32 = Address::from_str(bech32);
+        println!("mainnet bitcoin bech32: {:?}", bech32);
+
+        let bech32 = "tb1qndnfnxvjupgyfut6skz8mdj6zcmgu9r65rv7lr";
+        let bech32 = Address::from_str(bech32);
+        println!("testnet bitcoin bech32: {:?}", bech32);
     }
 }
 

@@ -46,6 +46,10 @@ pub enum Network {
     Devnet,
     /// Defichain's regtest network.
     Regtest,
+    /// Mainnet Bitcoin.
+    BitcoinMainnet,
+    /// Bitcoin's testnet network.
+    BitcoinTestnet,
 }
 
 impl Network {
@@ -92,6 +96,8 @@ impl Network {
             Network::Testnet => "test",
             Network::Devnet => "signet",
             Network::Regtest => "regtest",
+            Network::BitcoinMainnet => "bitcoin main",
+            Network::BitcoinTestnet => "bitcoin test",
         }
     }
 

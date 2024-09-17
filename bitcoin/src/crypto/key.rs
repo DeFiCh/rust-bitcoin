@@ -334,6 +334,7 @@ impl PrivateKey {
         ret[0] = match self.network {
             Network::Mainnet => 128,
             Network::Testnet | Network::Devnet | Network::Regtest => 239,
+            _ => 239,
         };
         ret[1..33].copy_from_slice(&self.inner[..]);
         let privkey = if self.compressed {

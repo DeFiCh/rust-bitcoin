@@ -38,20 +38,24 @@ pub const WITNESS_SCALE_FACTOR: usize = 4;
 pub const MAX_BLOCK_SIGOPS_COST: i64 = 80_000;
 
 /// Mainnet (bitcoin) pubkey address prefix.
-// pub const PUBKEY_ADDRESS_PREFIX_MAIN: u8 = 0; // 0x00
-pub const PUBKEY_ADDRESS_PREFIX_MAIN: u8 = 18; // 0x12 (defichain mainnet)
+pub const PUBKEY_ADDRESS_PREFIX_BITCOIN_MAIN: u8 = 0; // 0x00
+/// Mainnet (defichain) pubkey address prefix.
+pub const PUBKEY_ADDRESS_PREFIX_MAIN: u8 = 18; // 0x12
 
 /// Mainnet (bitcoin) script address prefix.
-// pub const SCRIPT_ADDRESS_PREFIX_MAIN: u8 = 5; // 0x05
-pub const SCRIPT_ADDRESS_PREFIX_MAIN: u8 = 90; // 0x5a (defichain mainnet)
+pub const SCRIPT_ADDRESS_PREFIX_BITCOIN_MAIN: u8 = 5; // 0x05
+/// Mainnet (defichain) script address prefix.
+pub const SCRIPT_ADDRESS_PREFIX_MAIN: u8 = 90; // 0x5a
 
-/// Test (tesnet, signet, regtest) pubkey address prefix.
-// pub const PUBKEY_ADDRESS_PREFIX_TEST: u8 = 111; // 0x6f
-pub const PUBKEY_ADDRESS_PREFIX_TEST: u8 = 15; // 0xf (defichain testnet, devnet, changi)
+/// Test Bitcoin (tesnet, signet, regtest) pubkey address prefix.
+pub const PUBKEY_ADDRESS_PREFIX_BITCOIN_TEST: u8 = 111; // 0x6f
+/// Test Defichain (tesnet, devnet, changi) pubkey address prefix.
+pub const PUBKEY_ADDRESS_PREFIX_TEST: u8 = 15; // 0xf
 
-/// Test (tesnet, signet, regtest) script address prefix.
-// pub const SCRIPT_ADDRESS_PREFIX_TEST: u8 = 196; // 0xc4
-pub const SCRIPT_ADDRESS_PREFIX_TEST: u8 = 128; // 0x80 (defichain testnet, devnet changi)
+/// Test Bitcoin (tesnet, signet, regtest) script address prefix.
+pub const SCRIPT_ADDRESS_PREFIX_BITCOIN_TEST: u8 = 196; // 0xc4
+/// Test Defichain (tesnet, devnet, changi) script address prefix.
+pub const SCRIPT_ADDRESS_PREFIX_TEST: u8 = 128; // 0x80
 
 /// Regtest pubkey address prefix.
 pub const PUBKEY_ADDRESS_PREFIX_REGTEST: u8 = 111; // 0x6f (defichain regtest)
@@ -152,7 +156,7 @@ pub fn genesis_block(network: Network) -> Block {
             },
             txdata,
         },
-        Network::Regtest => Block {
+        _ => Block {
             header: block::Header {
                 version: block::Version::ONE,
                 prev_blockhash: Hash::all_zeros(),

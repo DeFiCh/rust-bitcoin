@@ -229,7 +229,7 @@ impl Target {
             Network::Mainnet => Target::MAX_ATTAINABLE_MAINNET,
             Network::Testnet => Target::MAX_ATTAINABLE_TESTNET,
             Network::Devnet => Target::MAX_ATTAINABLE_SIGNET,
-            Network::Regtest => Target::MAX_ATTAINABLE_REGTEST,
+            _ => Target::MAX_ATTAINABLE_REGTEST,
         };
         let d = max.0 / self.0;
         d.saturating_to_u128()
