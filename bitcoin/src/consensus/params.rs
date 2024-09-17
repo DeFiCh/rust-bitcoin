@@ -94,7 +94,7 @@ impl Params {
                 allow_min_difficulty_blocks: false,
                 no_pow_retargeting: false,
             },
-            Network::Regtest => Params {
+            _ => Params {
                 network: Network::Regtest,
                 bip16_time: 1333238400,  // Apr 1 2012
                 bip34_height: 100000000, // not activated on regtest

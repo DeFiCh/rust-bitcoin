@@ -665,6 +665,7 @@ impl Xpriv {
         ret[0..4].copy_from_slice(&match self.network {
             Network::Mainnet => VERSION_BYTES_MAINNET_PRIVATE,
             Network::Testnet | Network::Devnet | Network::Regtest => VERSION_BYTES_TESTNETS_PRIVATE,
+            _ => VERSION_BYTES_TESTNETS_PRIVATE,
         });
         ret[4] = self.depth;
         ret[5..9].copy_from_slice(&self.parent_fingerprint[..]);
@@ -797,6 +798,7 @@ impl Xpub {
         ret[0..4].copy_from_slice(&match self.network {
             Network::Mainnet => VERSION_BYTES_MAINNET_PUBLIC,
             Network::Testnet | Network::Devnet | Network::Regtest => VERSION_BYTES_TESTNETS_PUBLIC,
+            _ => VERSION_BYTES_TESTNETS_PUBLIC,
         });
         ret[4] = self.depth;
         ret[5..9].copy_from_slice(&self.parent_fingerprint[..]);

@@ -240,7 +240,7 @@ impl From<Network> for Magic {
             Network::Mainnet => Magic::MAINNET,
             Network::Testnet => Magic::TESTNET,
             Network::Devnet => Magic::DEVNET,
-            Network::Regtest => Magic::REGTEST,
+            _ => Magic::REGTEST,
         }
     }
 }
